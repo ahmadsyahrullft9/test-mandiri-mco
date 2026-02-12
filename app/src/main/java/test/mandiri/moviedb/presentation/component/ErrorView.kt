@@ -19,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -39,12 +40,14 @@ fun ErrorView(errorMessage: String, onRetry: () -> Unit = {}) {
         Spacer(Modifier.height(16.dp))
         Text(
             "Oops !",
+            textAlign = TextAlign.Center,
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.error,
         )
         Spacer(Modifier.height(3.dp))
         Text(
             errorMessage,
+            textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurface,
         )

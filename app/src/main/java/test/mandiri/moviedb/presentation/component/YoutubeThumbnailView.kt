@@ -53,13 +53,12 @@ fun YouTubeThumbnailView(
             contentDescription = "thumnail movie of $videoId",
             contentScale = ContentScale.Crop,
             loading = placeholder(
-                painter = painterResource(R.drawable.ic_launcher_background)
+                resourceId = R.drawable.ic_launcher_background
             ),
             failure = placeholder(
-                painter = painterResource(R.drawable.ic_launcher_background)
+                resourceId = R.drawable.ic_launcher_background
             )
         )
-
         Icon(
             imageVector = Icons.Default.PlayArrow,
             contentDescription = "Play $videoName",
