@@ -15,7 +15,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.retain.retain
@@ -23,11 +22,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
-import test.mandiri.moviedb.ui.theme.MovieDbTheme
-import test.mandiri.moviedb.ui.view.GenreScreen
-import test.mandiri.moviedb.ui.view.MovieDetailScreen
-import test.mandiri.moviedb.ui.view.MovieListScreen
-import test.mandiri.moviedb.ui.view.YouTubePlayerScreen
+import test.mandiri.moviedb.core.theme.MovieDbTheme
+import test.mandiri.moviedb.presentation.screen.genre.GenreScreen
+import test.mandiri.moviedb.presentation.screen.movie_detail.MovieDetailScreen
+import test.mandiri.moviedb.presentation.screen.movie_list.MovieListScreen
+import test.mandiri.moviedb.presentation.screen.youtube_player.YouTubePlayerScreen
 
 class MainActivity : ComponentActivity() {
 
