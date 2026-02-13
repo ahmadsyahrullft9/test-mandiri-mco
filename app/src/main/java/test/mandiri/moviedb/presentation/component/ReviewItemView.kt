@@ -26,7 +26,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withLink
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.google.gson.Gson
@@ -34,7 +41,7 @@ import test.mandiri.moviedb.core.theme.MovieDbTheme
 import test.mandiri.moviedb.domain.model.Review
 
 @Composable
-fun ReviewItemView(review: Review) {
+fun ReviewItemView(review: Review, onSeeMore: (review: Review) -> Unit) {
     Box(
         Modifier
             .fillMaxWidth()
@@ -79,10 +86,45 @@ fun ReviewItemView(review: Review) {
                 }
             }
             Spacer(Modifier.height(12.dp))
-            Text(
-                review.content ?: "-",
-                style = MaterialTheme.typography.bodyMedium,
-            )
+            128.let {
+                if ((review.content?.length ?: 0) > it)
+                    Text(
+                        buildAnnotatedString {
+                            withStyle(
+                                style = SpanStyle(
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                    fontWeight = FontWeight.Normal,
+                                    fontSize = MaterialTheme.typography.bodyMedium.fontSize
+                                )
+                            ) {
+                                append("${(review.content ?: "").substring(0, it)} ...")
+                                append(" ")
+                            }
+                            withLink(
+                                link = LinkAnnotation.Clickable(
+                                    tag = "see_more_tag",
+                                    linkInteractionListener = {
+                                        onSeeMore(review)
+                                    },
+                                    styles = TextLinkStyles(
+                                        style = SpanStyle(
+                                            color = MaterialTheme.colorScheme.primary,
+                                            fontWeight = FontWeight.SemiBold,
+                                            fontSize = MaterialTheme.typography.labelLarge.fontSize
+                                        )
+                                    )
+                                )
+                            ) {
+                                append("see more")
+                            }
+                        }
+                    )
+                else
+                    Text(
+                        review.content ?: "",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+            }
         }
     }
 }
@@ -118,7 +160,9 @@ fun previewReviewItem() {
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(10) {
-                    ReviewItemView(review)
+                    ReviewItemView(review){
+
+                    }
                 }
             }
         }
