@@ -106,6 +106,9 @@ dependencies {
 
     implementation(libs.youtube.player)
 
+    implementation(libs.adaptive.core)
+    implementation(libs.adaptive.layout)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

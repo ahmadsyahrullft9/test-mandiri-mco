@@ -17,11 +17,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.retain.retain
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
+import test.mandiri.moviedb.core.navigation.ListDetailSceneStrategy
+import test.mandiri.moviedb.core.navigation.rememberListDetailSceneStrategy
 import test.mandiri.moviedb.core.theme.MovieDbTheme
 import test.mandiri.moviedb.presentation.screen.genre.GenreScreen
 import test.mandiri.moviedb.presentation.screen.movie_detail.MovieDetailScreen
@@ -35,7 +37,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val backStack = retain { mutableStateListOf<AppRoute>(AppRoute.GenreRoute) }
+            val backStack = rememberSaveable { mutableStateListOf<AppRoute>(AppRoute.GenreRoute) }
             MovieDbTheme {
                 Scaffold(
                     topBar = {
@@ -80,9 +82,10 @@ class MainActivity : ComponentActivity() {
                         onBack = {
                             backStack.removeLastOrNull()
                         },
+                        sceneStrategy = rememberListDetailSceneStrategy(),
                         entryProvider = { key ->
                             when (key) {
-                                is AppRoute.GenreRoute -> NavEntry(key) {
+                                is AppRoute.GenreRoute -> NavEntry(key, metadata = ListDetailSceneStrategy.listPane()) {
                                     GenreScreen { genreID, genreName ->
                                         backStack.add(
                                             AppRoute.MovieListRoute(
@@ -93,7 +96,7 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
 
-                                is AppRoute.MovieListRoute -> NavEntry(key) {
+                                is AppRoute.MovieListRoute -> NavEntry(key, metadata = ListDetailSceneStrategy.detailPane()) {
                                     MovieListScreen(key.genreID) { movieID, movieTitle ->
                                         backStack.add(
                                             AppRoute.MovieDetailRoute(
@@ -104,13 +107,13 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
 
-                                is AppRoute.MovieDetailRoute -> NavEntry(key) {
+                                is AppRoute.MovieDetailRoute -> NavEntry(key, metadata = ListDetailSceneStrategy.previewPane()) {
                                     MovieDetailScreen(key.movieID) { videoID ->
                                         backStack.add(AppRoute.YoutubePlayerRoute(videoID))
                                     }
                                 }
 
-                                is AppRoute.YoutubePlayerRoute -> NavEntry(key) {
+                                is AppRoute.YoutubePlayerRoute -> NavEntry(key, metadata = ListDetailSceneStrategy.listPane()) {
                                     YouTubePlayerScreen(key.videoID) {
                                         backStack.removeLastOrNull()
                                     }

@@ -62,7 +62,7 @@ fun MovieListScreenView(movieList: LazyPagingItems<Movie>, onMovieClick: (Int, S
     ) {
         items(movieList.itemCount) { i ->
             movieList[i]?.let {
-                MovieItemView(it, Modifier.clickable(true, onClick = {
+                MovieItemView(movie = it, Modifier.clickable(true, onClick = {
                     onMovieClick(
                         it.id ?: 0,
                         it.title ?: "-"
